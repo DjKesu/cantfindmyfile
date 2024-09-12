@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { FolderTree, Search, Tags, Clock, Eye } from 'lucide-react';
+import Airtable from 'airtable';
+
+
 
 const LandingPage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -11,28 +14,22 @@ const LandingPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_TABLE_NAME', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer YOUR_AIRTABLE_API_KEY',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          fields: {
-            Email: email
+      const base = new Airtable({ apiKey: import.meta.env.VITE_AIRTABLE_API_KEY }).base(import.meta.env.VITE_AIRTABLE_BASE_ID);
+      await base('').create([
+        {
+          "fields": {
+            "Email": email
           }
-        })
-      });
-      if (response.ok) {
-        setSubmitMessage('Thanks for joining our waitlist!');
-        setEmail('');
-      } else {
-        setSubmitMessage('Oops! Something went wrong. Please try again.');
-      }
+        }
+      ]);
+      setSubmitMessage('Thanks for joining our waitlist!');
+      setEmail('');
     } catch (error) {
+      console.error('Error submitting to Airtable:', error);
       setSubmitMessage('Oops! Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   return (

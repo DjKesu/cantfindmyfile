@@ -12,13 +12,13 @@ const LandingPage = () => {
 
 	const options = [
 		{
-			value: "Psychic Search?",
-			label: "Psychic Search",
+			value: "Time Machine?",
+			label: "Time Machine",
 		},
 		{ value: "Sherlock Search?", label: "Sherlock Search" },
 		{ value: "Tag?", label: "Tag, You're It!" },
 		{ value: "Intelligent Folder Whisperer?", label: "Intelligent Folder Whisperer" },
-    { value: "Recently Files?", label: "Recent Files" },
+    { value: "X-ray Vision?", label: "X-ray Vision" },
     { value: "Other", label: "Other" },
 	];
 

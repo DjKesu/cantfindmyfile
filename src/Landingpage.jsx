@@ -14,7 +14,7 @@ const LandingPage = () => {
   const options = [
     { value: "Time Machine?", label: "Time Machine" },
     { value: "Sherlock Search?", label: "Sherlock Search" },
-    { value: "Tag?", label: "Tag, You're It!" },
+    { value: "Tags?", label: "Tag, You're It!" },
     { value: "Intelligent Folder Whisperer?", label: "Intelligent Folder Whisperer" },
     { value: "X-ray Vision?", label: "X-ray Vision" },
     { value: "Other", label: "Other" },

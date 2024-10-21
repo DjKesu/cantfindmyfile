@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { FolderTree, Search, Tags, Clock, Eye } from "lucide-react";
 import axios from "axios";
+import features from "./features.json"; // Importing features.json
+import ToggleSwitch from "./ToggleSwitch"; // Reusable ToggleSwitch component
 
-const LandingPage = () => {
+const LandingPage = ({ developerMode, toggleDeveloperMode }) => {
   const [showForm, setShowForm] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -11,12 +13,12 @@ const LandingPage = () => {
   const [otherFeature, setOtherFeature] = useState(""); // New state for 'Other' text
   const [showOtherField, setShowOtherField] = useState(false); // State to control visibility of 'Other' text field
 
+  // Generate options from features.json
   const options = [
-    { value: "Time Machine?", label: "Time Machine" },
-    { value: "Sherlock Search?", label: "Sherlock Search" },
-    { value: "Tags?", label: "Tag, You're It!" },
-    { value: "Intelligent Folder Whisperer?", label: "Intelligent Folder Whisperer" },
-    { value: "X-ray Vision?", label: "X-ray Vision" },
+    ...features.map((feature) => ({
+      value: feature.name,
+      label: feature.name + "?",
+    })),
     { value: "Other", label: "Other" },
   ];
 
@@ -50,8 +52,10 @@ const LandingPage = () => {
     }
 
     // Prepare feature interest data
-    let featureInterest = [...selectedOptions];
-    
+    let featureInterest = selectedOptions.filter((option) => option !== "Other");
+    if (selectedOptions.includes("Other")) {
+      featureInterest.push(otherFeature);
+    }
 
     let data = {
       records: [
@@ -59,7 +63,7 @@ const LandingPage = () => {
           fields: {
             "User Email": email,
             "Feature Interest": featureInterest,
-			"Other": otherFeature,
+            "Other": otherFeature,
           },
         },
       ],
@@ -99,145 +103,151 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-500 to-blue-600 text-white">
-      <header className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold mb-2">cantfindmyfile.com</h1>
-        <p className="text-xl">
-          Where 'needle in a haystack' becomes 'file in a flash'
-        </p>
-      </header>
+    <div className="min-h-screen bg-white text-gray-900">
+      <div className="container mx-auto px-4 py-6">
+        {/* Header is managed by App.jsx, no internal header here */}
 
-      <main className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <section className="mb-16">
-          <h2 className="text-3xl font-semibold mb-6">
-            File management that actually manages to impress
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={<FolderTree className="w-12 h-12" />}
-              title="Intelligent Folder Whisperer"
-              description="Our AI suggests folder structures so logical, even your grandma could find your files."
-            />
-            <FeatureCard
-              icon={<Search className="w-12 h-12" />}
-              title="Sherlock Search"
-              description="Finds your files faster than you can say 'elementary, my dear Watson', using content and metadata."
-            />
-            <FeatureCard
-              icon={<Tags className="w-12 h-12" />}
-              title="Tag, You're It!"
-              description="Add tags to your heart's content. It's like hide and seek, but you always win."
-            />
-            <FeatureCard
-              icon={<Clock className="w-12 h-12" />}
-              title="Time Machine (sort of)"
-              description="Tracks your recently used files. Because we know you'll forget where you put them."
-            />
-            <FeatureCard
-              icon={<Eye className="w-12 h-12" />}
-              title="X-Ray Vision"
-              description="Preview files without opening them. It's not mind-reading, but it's close."
-            />
-          </div>
-        </section>
+        <header className="mb-8 text-center">
+          <h1 className="text-2xl md:text-4xl font-semibold md:font-bold mb-2">CantFindMyFile.com</h1>
+          <p className="text-base md:text-lg">
+            Where "needle in a haystack" becomes "file in a flash"
+          </p>
+        </header>
 
-        <section className="text-center mb-16">
-          <h2 className="text-3xl font-semibold mb-6">Why you'll love us</h2>
-          <ul className="text-lg space-y-4">
-            <li>✨ Organize files faster than a caffeinated librarian</li>
-            <li>🔍 Find any file in seconds, even if you named it "asdfghjkl"</li>
-            <li>⏱️ Access recent files quicker than your coffee gets cold</li>
-            <li>🖼️ Preview files without opening 17 different apps</li>
-          </ul>
-        </section>
+        <main>
+          <section className="mb-12">
+            <h2 className="text-xl md:text-2xl font-semibold mb-6 text-center">
+              File management that actually manages to impress
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {features.map((feature, index) => {
+                let icon;
+                switch (feature.name) {
+                  case "Intelligent Folder Whisperer":
+                    icon = <FolderTree className="w-8 h-8 text-blue-500" />;
+                    break;
+                  case "Sherlock Search":
+                    icon = <Search className="w-8 h-8 text-green-500" />;
+                    break;
+                  case "Tag, You're It!":
+                    icon = <Tags className="w-8 h-8 text-purple-500" />;
+                    break;
+                  case "Time Machine (sort of)":
+                    icon = <Clock className="w-8 h-8 text-yellow-500" />;
+                    break;
+                  case "X-Ray Vision":
+                    icon = <Eye className="w-8 h-8 text-red-500" />;
+                    break;
+                  default:
+                    icon = <FolderTree className="w-8 h-8 text-gray-500" />;
+                }
+                return (
+                  <FeatureCard
+                    key={index}
+                    icon={icon}
+                    title={feature.name}
+                    description={feature.description}
+                  />
+                );
+              })}
+            </div>
+          </section>
 
-        <section className="text-center">
-          <h2 className="text-3xl font-semibold mb-6">
-            Ready to turn file chaos into file zen?
-          </h2>
-          {!showForm ? (
-            <button
-              onClick={() => setShowForm(true)}
-              className="bg-white text-teal-600 font-bold py-3 px-6 rounded-full text-lg hover:bg-teal-100 transition duration-300"
-            >
-              Join the Waitlist
-            </button>
-          ) : (
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-6">
-              <div className="flex items-center border-b border-white py-2">
-                <input
-                  className="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none"
-                  type="email"
-                  placeholder="Enter your email"
-                  aria-label="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <p className="text-lg mb-4">Which features are you interested in?</p>
-                <div className="flex flex-wrap justify-center">
-                  {options.map((option) => (
-                    <button
-                      key={option.value}
-                      type="button"
-                      onClick={() => toggleOption(option.value)}
-                      className={`m-2 px-4 py-2 rounded-full border ${
-                        selectedOptions.includes(option.value)
-                          ? "bg-white text-teal-600 border-white"
-                          : "bg-transparent text-white border-white"
-                      } hover:bg-teal-100 hover:text-teal-600 transition duration-300`}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-                {showOtherField && (
-                  <div className="mt-4">
-                    <input
-                      type="text"
-                      placeholder="Please specify"
-                      value={otherFeature}
-                      onChange={(e) => setOtherFeature(e.target.value)}
-                      className="appearance-none bg-transparent border-b border-white w-full text-white py-2 px-4 leading-tight focus:outline-none"
-                      required
-                    />
-                  </div>
-                )}
-              </div>
+          <section className="mb-12">
+            <h2 className="text-xl md:text-2xl font-semibold mb-6 text-center">
+              Why you'll love us
+            </h2>
+            <ul className="text-center text-base md:text-lg space-y-4">
+              <li>✨ Super-fast file organization</li>
+              <li>🔍 Find any file in seconds</li>
+              <li>⏱️ Quick access to recent files</li>
+              <li>🖼️ Preview files instantly</li>
+            </ul>
+          </section>
+
+          <section className="text-center">
+            <h2 className="text-xl md:text-2xl font-semibold mb-4">
+              Ready for file zen?
+            </h2>
+            {!showForm ? (
               <button
-                className="w-full bg-white text-teal-600 font-bold py-3 px-6 rounded-full hover:bg-teal-100 transition duration-300"
-                type="submit"
-                disabled={isSubmitting}
+                onClick={() => setShowForm(true)}
+                className="bg-blue-600 text-white font-bold py-2 px-6 rounded-full text-base md:text-lg hover:bg-blue-700 transition duration-300"
               >
-                {isSubmitting ? "Signing up..." : "Sign Up"}
+                Join the Waitlist
               </button>
-            </form>
-          )}
-          {submitMessage && <p className="mt-4 text-lg">{submitMessage}</p>}
-        </section>
-      </main>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6 max-w-md mx-auto">
+                <div>
+                  <input
+                    className="appearance-none bg-gray-100 border border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <p className="text-base md:text-lg mb-2">Interested features:</p>
+                  <div className="flex flex-wrap justify-center">
+                    {options.map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => toggleOption(option.value)}
+                        className={`m-1 px-3 py-1 rounded-full border text-sm ${
+                          selectedOptions.includes(option.value)
+                            ? "bg-blue-600 text-white border-blue-600"
+                            : "bg-transparent text-gray-700 border-gray-700"
+                        } hover:bg-blue-100 hover:text-blue-600 transition duration-300`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                  {showOtherField && (
+                    <div className="mt-4">
+                      <input
+                        type="text"
+                        placeholder="Please specify"
+                        value={otherFeature}
+                        onChange={(e) => setOtherFeature(e.target.value)}
+                        className="appearance-none bg-gray-100 border border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                        required
+                      />
+                    </div>
+                  )}
+                </div>
+                <button
+                  className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-full text-base md:text-lg hover:bg-blue-700 transition duration-300"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Signing up..." : "Sign Up"}
+                </button>
+              </form>
+            )}
+            {submitMessage && <p className="mt-6 text-base md:text-lg">{submitMessage}</p>}
+          </section>
+        </main>
 
-      <footer className="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center	">
-        <p>
-          &copy; 2024 cantfindmyfile.com. If you can read this, congratulations!
-          You've successfully located our copyright
-          notice.
-        </p>
-      </footer>
+        <footer className="mt-12 text-center text-sm text-gray-600">
+          <p>2024 CantFindMyFile.com. You've found our copyright notice!</p>
+        </footer>
+      </div>
     </div>
   );
 };
 
 const FeatureCard = ({ icon, title, description }) => {
   return (
-    <div className="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+    <div className="bg-gray-50 border border-gray-200 p-6 rounded-lg shadow-sm">
       <div className="flex items-center mb-4">
         {icon}
-        <h3 className="text-xl font-semibold ml-4">{title}</h3>
+        <h3 className="text-lg md:text-xl font-semibold ml-4">{title}</h3>
       </div>
-      <p>{description}</p>
+      <p className="text-gray-700 text-sm md:text-base">{description}</p>
     </div>
   );
 };

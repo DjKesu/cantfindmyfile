@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+  .retro-form {
+    font-family: "Courier New", Courier, monospace;
+    border-radius: 5px;
+    box-shadow: 4px 4px 0px #000;
+  }
+  
+  .retro-form input[type="email"] {
+    background-color: #f0f0f0;
+    border: 2px inset #ddd;
+    padding: 2px;
+  }
+  
+  .retro-form button {
+    background-color: #cfcfcf;
+    border: 2px outset #fff;
+  }
+  

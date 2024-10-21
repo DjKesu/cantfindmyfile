@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Intelligent Folder Whisperer",
+    "oneLiner": "AI-suggested logical folder structures",
+    "description": "Provides intelligent suggestions for organizing your folders based on usage patterns."
+  },
+  {
+    "name": "Sherlock Search",
+    "oneLiner": "Fast file finding using content and metadata",
+    "description": "Quickly locate any file using advanced search capabilities based on content and metadata."
+  },
+  {
+    "name": "Tag, You're It!",
+    "oneLiner": "Effortless file tagging system",
+    "description": "Easily tag your files for better organization and quicker access."
+  },
+  {
+    "name": "Time Machine (sort of)",
+    "oneLiner": "Track and access recent files quickly",
+    "description": "Access your recent files rapidly with our time tracking feature."
+  },
+  {
+    "name": "X-Ray Vision",
+    "oneLiner": "Preview files without opening them",
+    "description": "Get a quick preview of your files without the need to open them."
+  }
+]

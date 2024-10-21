@@ -100,14 +100,14 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-500 to-blue-600 text-white">
-      <header className="container mx-auto py-8">
+      <header className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-bold mb-2">cantfindmyfile.com</h1>
         <p className="text-xl">
           Where 'needle in a haystack' becomes 'file in a flash'
         </p>
       </header>
 
-      <main className="container mx-auto py-12">
+      <main className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <section className="mb-16">
           <h2 className="text-3xl font-semibold mb-6">
             File management that actually manages to impress
@@ -219,7 +219,7 @@ const LandingPage = () => {
         </section>
       </main>
 
-      <footer className="container mx-auto py-8 text-center">
+      <footer className="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center	">
         <p>
           &copy; 2024 cantfindmyfile.com. If you can read this, congratulations!
           You've successfully located our copyright

@@ -12,13 +12,13 @@ const ToggleSwitch = ({ isOn, handleToggle, label }) => {
         className="sr-only"
       />
       <div
-        className={`w-6 h-3 bg-gray-300 rounded-full relative transition-colors duration-300 ${
+        className={`w-6 h-3 rounded-full relative transition-colors duration-300 ${
           isOn ? "bg-blue-500" : "bg-gray-300"
         }`}
       >
         <div
           className={`absolute w-3 h-2.5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-            isOn ? "translate-x-3" : "translate-x-0"
+            isOn ? "translate-x-3 bg-blue-500" : "translate-x-0"
           }`}
         ></div>
       </div>

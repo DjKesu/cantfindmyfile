@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FolderTree, Search, Tags, Clock, Eye } from "lucide-react";
+import { FolderTree, Search, Tags, Clock, Eye, MessageCircleCodeIcon } from "lucide-react";
 import axios from "axios";
 import features from "./features.json"; // Importing features.json
 import ToggleSwitch from "./ToggleSwitch"; // Reusable ToggleSwitch component
@@ -84,7 +84,7 @@ const LandingPage = ({ developerMode, toggleDeveloperMode }) => {
 
     try {
       await axios.request(config);
-      setSubmitMessage("Thanks for joining our waitlist!");
+      setSubmitMessage("Thank you for joining our waitlist!");
       setEmail("");
       setSelectedOptions([]);
       setOtherFeature("");
@@ -104,21 +104,18 @@ const LandingPage = ({ developerMode, toggleDeveloperMode }) => {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-5">
         {/* Header is managed by App.jsx, no internal header here */}
 
-        <header className="mb-8 text-center">
-          <h1 className="text-2xl md:text-4xl font-semibold md:font-bold mb-2">CantFindMyFile.com</h1>
+        <header className="mb-6 text-center">
+          <h1 className="text-2xl md:text-4xl font-semibold md:font-bold mb-1">Can't find your file?</h1>
           <p className="text-base md:text-lg">
-            Where "needle in a haystack" becomes "file in a flash"
+            File management that actually manages to impress
           </p>
         </header>
 
         <main>
           <section className="mb-12">
-            <h2 className="text-xl md:text-2xl font-semibold mb-6 text-center">
-              File management that actually manages to impress
-            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {features.map((feature, index) => {
                 let icon;
@@ -129,8 +126,8 @@ const LandingPage = ({ developerMode, toggleDeveloperMode }) => {
                   case "Sherlock Search":
                     icon = <Search className="w-8 h-8 text-green-500" />;
                     break;
-                  case "Tag, You're It!":
-                    icon = <Tags className="w-8 h-8 text-purple-500" />;
+                  case "Chat with Your Files":
+                    icon = <MessageCircleCodeIcon className="w-8 h-8 text-purple-500" />;
                     break;
                   case "Time Machine (sort of)":
                     icon = <Clock className="w-8 h-8 text-yellow-500" />;
@@ -160,13 +157,12 @@ const LandingPage = ({ developerMode, toggleDeveloperMode }) => {
             <ul className="text-center text-base md:text-lg space-y-4">
               <li>✨ Super-fast file organization</li>
               <li>🔍 Find any file in seconds</li>
-              <li>⏱️ Quick access to recent files</li>
-              <li>🖼️ Preview files instantly</li>
+              <li>💬 Chat with your files</li>
             </ul>
           </section>
 
           <section className="text-center">
-            <h2 className="text-xl md:text-2xl font-semibold mb-4">
+            <h2 className="text-xl md:text-2xl font-semibold mb-2">
               Ready for file zen?
             </h2>
             {!showForm ? (
@@ -196,11 +192,10 @@ const LandingPage = ({ developerMode, toggleDeveloperMode }) => {
                         key={option.value}
                         type="button"
                         onClick={() => toggleOption(option.value)}
-                        className={`m-1 px-3 py-1 rounded-full border text-sm ${
-                          selectedOptions.includes(option.value)
-                            ? "bg-blue-600 text-white border-blue-600"
-                            : "bg-transparent text-gray-700 border-gray-700"
-                        } hover:bg-blue-100 hover:text-blue-600 transition duration-300`}
+                        className={`m-1 px-3 py-1 rounded-full border text-sm ${selectedOptions.includes(option.value)
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "bg-transparent text-gray-700 border-gray-700"
+                          } hover:bg-blue-100 hover:text-blue-600 transition duration-300`}
                       >
                         {option.label}
                       </button>
@@ -232,9 +227,22 @@ const LandingPage = ({ developerMode, toggleDeveloperMode }) => {
           </section>
         </main>
 
-        <footer className="mt-12 text-center text-sm text-gray-600">
-          <p>2024 CantFindMyFile.com. You've found our copyright notice!</p>
+        <footer className="fixed bottom-0 w-full bg-white shadow p-2 z-50 h-16 flex justify-between items-center">
+          {/* Centered Text */}
+          <p className="text-sm text-gray-600 ">
+            2024 cantfindmyfile.com
+          </p>
+
+          {/* Toggle Switch on the Right */}
+          <div className="absolute right-10 flex items-center space-x-2 p-2">
+            <span className="text-sm text-gray-600">Dev Mode</span>
+            <ToggleSwitch
+              isOn={developerMode}
+              handleToggle={toggleDeveloperMode}
+            />
+          </div>
         </footer>
+
       </div>
     </div>
   );

@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import { Folder, File, ChevronRight, Home, Menu, X } from "lucide-react";
 import axios from "axios";
 import features from "./features.json"; // Importing features.json
+import ToggleSwitch from "./ToggleSwitch";
 
-const RetroFileManagerLandingPage = () => {
+const RetroFileManagerLandingPage = ({isOn, handleToggle}) => {
   const [currentPath, setCurrentPath] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [email, setEmail] = useState("");
@@ -247,17 +248,22 @@ const RetroFileManagerLandingPage = () => {
 
   return (
     <div className="h-screen bg-gray-800 text-white p-4 font-mono flex flex-col">
-      {/* Main Content */}
-      <div className="flex-grow flex">
-        {isMobile ? renderMobileView() : renderDesktopView()}
-      </div>
+      <header className="bg-gray-900 p-2 flex items-center justify-between rounded">
+        <ToggleSwitch
+          isOn={developerMode}
+          handleToggle={toggleDeveloperMode}
+        />
+        {/* Main Content */}
+        <div className="flex-grow flex">
+          {isMobile ? renderMobileView() : renderDesktopView()}
+        </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 p-4 text-center flex justify-center items-center flex-nowrap">
-        <span className="text-sm text-white font-mono">
-          2024 CantFindMyFile.com
-        </span>
-      </footer>
+        {/* Footer */}
+        <footer className="bg-gray-900 p-4 text-center flex justify-center items-center flex-nowrap">
+          <span className="text-sm text-white font-mono">
+            2024 CantFindMyFile.com
+          </span>
+        </footer>
     </div>
   );
 };
